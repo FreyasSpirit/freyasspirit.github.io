@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+<textarea class="textinput" rows=50 cols=50 id="input"></textarea>
+<button onclick="GenerateTriggers()">Generate triggers</button>
+<textarea class="textinput" rows=50 cols=50 id="output"></textarea>
+
+<script>
+function GenerateTriggers() {
+  var inputVal = document.getElementById("input").value;
+  document.getElementById("output").innerHTML = inputVal;
+  return inputVal
+}
+</script>
+
 </body>
 </html>
