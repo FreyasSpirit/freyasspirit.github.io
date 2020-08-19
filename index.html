@@ -1,15 +1,71 @@
 <!DOCTYPE html>
 <html>
 <body>
-<textarea class="textinput" rows=50 cols=50 id="input"></textarea>
+<font size ="+2">
+<a href="https://github.com/FreyasSpirit/freyasspirit.github.io">User Guide</a><br>
+</font>
+
+<textarea class="textarea" rows=50 cols=50 id="input" value="input">
+{
+  "_comment": "Sample build for 2rax acad",
+  "__comment": "'Barracks is more than 15 seconds late'",
+  "secondsLate": 15,
+  "buildSteps":[
+    {"building":"Terran Barracks",        "num":1, "time":"1:28"},
+    {"building":"Terran Supply Depot",    "num":2, "time":"2:20"},
+    {"building":"Terran Command Center",  "num":2, "time":"2:43"},
+    {"building":"Terran Barracks",        "num":2, "time":"3:25"},
+    {"building":"Terran Refinery",        "num":1, "time":"3:39"},
+    {"building":"Terran Academy",         "num":1, "time":"4:05"},
+    {"building":"Terran Bunker",          "num":1, "time":"4:18"},
+    {"building":"Terran Comsat Station",  "num":2, "time":"5:14"},
+    {"building":"Terran Engineering Bay", "num":1, "time":"5:17"},
+    {"building":"Terran Barracks",        "num":3, "time":"5:23"},
+    {"building":"Terran Missile Turret",  "num":4, "time":"6:00"},
+    {"building":"Terran Factory",         "num":1, "time":"6:56"},
+    {"building":"Terran Refinery",        "num":2, "time":"7:08"},
+    {"building":"Terran Barracks",        "num":4, "time":"7:35"},
+    {"building":"Terran Starport",        "num":1, "time":"7:58"},
+    {"building":"Terran Barracks",        "num":5, "time":"8:07"}
+  ]
+}
+</textarea>
 <button onclick="GenerateTriggers()">Generate triggers</button>
-<textarea class="textinput" rows=50 cols=50 id="output"></textarea>
+<textarea class="textarea" rows=50 cols=50 id="output" placeholder="output"></textarea>
 
 <script>
+function GenerateTrigger(buildStep, secondsLate) {
+  var time = buildStep.time.split(":");
+  var igtSecondsLate = Math.floor((parseInt(time[0]*60) + parseInt(time[1]) + parseInt(secondsLate)) * 1.5);
+  var buildingShortName = buildStep.building.substr(buildStep.building.indexOf(" ") + 1);
+  return `Trigger("Force 1"){
+  Conditions:
+    Command("Current Player", "${buildStep.building}", At most, ${buildStep.num - 1});
+    Elapsed Time(At least, ${igtSecondsLate});
+
+  Actions:
+    Display Text Message(Always Display, "${buildingShortName} is more than ${secondsLate} seconds late");
+  }
+  `
+}
+
 function GenerateTriggers() {
   var inputVal = document.getElementById("input").value;
-  document.getElementById("output").innerHTML = inputVal;
+  var obj = JSON.parse(inputVal)
+  var i;
+  var outputStr = "";
+  for (i = 0; i < obj.buildSteps.length; i++) {
+    outputStr += GenerateTrigger(obj.buildSteps[i], obj.secondsLate);
+
+  }
+  document.getElementById("output").innerHTML = outputStr;
   return inputVal
+}
+
+window.addEventListener("error", handleError, true);
+
+function handleError(evt) {
+  alert("Parse error, click the link to the user guide at the top left to find a JSON parser");
 }
 </script>
 
