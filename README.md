@@ -1,5 +1,9 @@
 # Macro practice for starcraft
 
+This is a tool which takes a build as input and ouputs UMS triggers to tell you if any buildings are late.
+For example, if your barracks is late, you will get a message "barracks is more than 15 seconds late".
+This is intended to help players learn new builds and practice their macro in a single player setting.
+
 Generate builds at [freyasspirit.github.io](https://freyasspirit.github.io/)
 
 Pregenerated builds are available [here](https://drive.google.com/drive/folders/1GzVsLiUY5JM5Dgvd-SdSXE9Jix8juDpw?usp=sharing)
